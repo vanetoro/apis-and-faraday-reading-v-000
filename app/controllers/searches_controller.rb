@@ -15,8 +15,11 @@ class SearchesController < ApplicationController
     if @resp.success?
       @venues = body_hash["response"]["venues"]
     else
-      # binding.pry
       @error = body_hash["meta"]["errorDetail"]
+    end
+
+    rescue Faraday::ConnectionFailed
+      @error = "There was a timeout. Please try again."
     end
     render 'search'
   end
